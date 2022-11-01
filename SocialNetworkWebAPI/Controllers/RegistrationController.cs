@@ -70,5 +70,16 @@ namespace SocialNetworkWebAPI.Controllers
             return response;
             }
 
+        [HttpPost]
+        [Route("RegistrationList")]
+        public Response RegistrationList(Registration registration)
+            {
+            Response response = new Response();
+            MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
+            Dal dal = new Dal();
+            response = dal.RegistrationList(registration,connection);
+            return response;
+            }
+
         }
     }

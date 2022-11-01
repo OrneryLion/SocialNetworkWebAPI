@@ -10,5 +10,6 @@
         public List<News> listNews { get; set; }
         public List<Events> listEvents { get; set; }
 
+
         }
     }

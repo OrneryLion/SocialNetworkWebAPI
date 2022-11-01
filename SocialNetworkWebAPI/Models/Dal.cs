@@ -135,6 +135,48 @@ namespace SocialNetworkWebAPI.Models
 
             return response;
             }
+        public Response RegistrationList(Registration registration, MySqlConnection connection)
+            {
+            Response response = new Response();
+            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM Registration WHERE IsActive = 1 AND UserType = '"+registration.UserType+"'", connection);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<Registration> lstRegistration = new List<Registration>();
+
+            if(dt.Rows.Count > 0)
+                {
+                for(int i = 0; i < dt.Rows.Count; i++)
+                    {
+                    Registration reg = new Registration();
+                    reg.Id = Convert.ToInt32((string)dt.Rows[i]["ID"]);
+                    reg.Name = Convert.ToString(dt.Rows[i]["Name"]);
+                    reg.Password = Convert.ToString((string)dt.Rows[i]["Password"]);
+                    reg.UserType = Convert.ToString(dt.Rows[i]["UserType"]);
+
+                    }
+                if(lstRegistration.Count > 0)
+                    {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "News data found";
+                    response.listRegistration = lstRegistration;
+                    }
+                else
+                    {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "No news data found";
+                    response.listRegistration = null;
+                    }
+
+                }
+            else
+                {
+                response.StatusCode = 100;
+                response.StatusMessage = "No news data found";
+                response.Registration = null;
+                }
+
+            return response;
+            }
         public Response AddArticle(Article article,MySqlConnection connection)
             {
             Response response = new Response();
