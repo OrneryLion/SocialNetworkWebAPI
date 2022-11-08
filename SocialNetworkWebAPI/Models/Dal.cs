@@ -138,7 +138,7 @@ namespace SocialNetworkWebAPI.Models
         public Response RegistrationList(Registration registration, MySqlConnection connection)
             {
             Response response = new Response();
-            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM Registration WHERE IsActive = 1 AND UserType = '"+registration.UserType+"'", connection);
+            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM registration WHERE IsActive = 1 AND UserType = '"+registration.UserType+"'", connection);
             DataTable dt = new DataTable();
             da.Fill(dt);
             List<Registration> lstRegistration = new List<Registration>();
@@ -148,22 +148,26 @@ namespace SocialNetworkWebAPI.Models
                 for(int i = 0; i < dt.Rows.Count; i++)
                     {
                     Registration reg = new Registration();
-                    reg.Id = Convert.ToInt32((string)dt.Rows[i]["ID"]);
+                    reg.Id = Convert.ToInt32((dt.Rows[i]["ID"]));
                     reg.Name = Convert.ToString(dt.Rows[i]["Name"]);
+                    reg.Email = Convert.ToString((string)dt.Rows[i]["Email"]);
+                    reg.IsApproved = Convert.ToInt32((dt.Rows[i]["IsApproved"]));
                     reg.Password = Convert.ToString((string)dt.Rows[i]["Password"]);
                     reg.UserType = Convert.ToString(dt.Rows[i]["UserType"]);
+                    reg.PhoneNo = Convert.ToString(dt.Rows[i]["PhoneNo"]);
+                    lstRegistration.Add(reg);
 
                     }
                 if(lstRegistration.Count > 0)
                     {
                     response.StatusCode = 200;
-                    response.StatusMessage = "News data found";
+                    response.StatusMessage = "Registration data found";
                     response.listRegistration = lstRegistration;
                     }
                 else
                     {
                     response.StatusCode = 100;
-                    response.StatusMessage = "No news data found";
+                    response.StatusMessage = "No Registration data found";
                     response.listRegistration = null;
                     }
 
@@ -171,7 +175,7 @@ namespace SocialNetworkWebAPI.Models
             else
                 {
                 response.StatusCode = 100;
-                response.StatusMessage = "No news data found";
+                response.StatusMessage = "No Registration data found";
                 response.Registration = null;
                 }
 
