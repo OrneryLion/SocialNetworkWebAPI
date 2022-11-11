@@ -18,45 +18,45 @@ namespace SocialNetworkWebAPI.Controllers
             }
 
         [HttpPost]
-        [Route("Registration")]
-        public Response Registration(Registration registration)
+        [Route("User")]
+        public Response User(User user)
             {
             Response response = new Response();
             MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
             Dal dal = new Dal();
-            response = dal.Registration(registration,connection);
+            response = dal.User(user,connection);
             return response;
             }
 
         [HttpPost]
         [Route("Login")]
-        public Response Login(Registration registration)
+        public Response Login(User user)
             {
             Response response = new Response();
             MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
             Dal dal = new Dal();
-            response = dal.Login(registration,connection);
+            response = dal.Login(user,connection);
             return response;
             }
         [HttpPost]
         [Route("UserApproval")]
-        public Response UserApproval(Registration registration)
+        public Response UserApproval(User user)
             {
             Response response = new Response();
             MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
             Dal dal = new Dal();
-            response = dal.UserApproval(registration,connection);
+            response = dal.UserApproval(user,connection);
             return response;
             }
 
         [HttpPost]
-        [Route("StaffRegistration")]
-        public Response StaffRegistration(Staff staff)
+        [Route("StaffUser")]
+        public Response StaffUser(Staff staff)
             {
             Response response = new Response();
             MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
             Dal dal = new Dal();
-            response = dal.StaffRegistration(staff,connection);
+            response = dal.StaffUser(staff,connection);
             return response;
             }
         [HttpPost]
@@ -72,12 +72,12 @@ namespace SocialNetworkWebAPI.Controllers
 
         [HttpPost]
         [Route("RegistrationList")]
-        public Response RegistrationList(Registration registration)
+        public Response userList(User user)
             {
             Response response = new Response();
             MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
             Dal dal = new Dal();
-            response = dal.RegistrationList(registration,connection);
+            response = dal.UserList(user,connection);
             return response;
             }
 

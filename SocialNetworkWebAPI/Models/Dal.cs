@@ -7,10 +7,10 @@ namespace SocialNetworkWebAPI.Models
     {
     public class Dal
         {
-        public Response Registration(Registration registration,MySqlConnection connection)
+        public Response User(User user,MySqlConnection connection)
             {
             Response response = new Response();
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO Registration(Name,Email,Password,PhoneNo,IsActive,IsApproved) VALUES ('"+registration.Name+ "','" + registration.Email+"','"  + registration.Password+ "','"  + registration.PhoneNo + "',1,0)", connection);
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO User(Name,Email,Password,PhoneNo,IsActive,IsApproved) VALUES ('"+user.Name+ "','" + user.Email+"','"  + user.Password+ "','"  + user.PhoneNo + "',1,0)", connection);
 
             connection.Open();
             int i = cmd.ExecuteNonQuery();
@@ -18,20 +18,20 @@ namespace SocialNetworkWebAPI.Models
             if(i > 0)
                 {
                 response.StatusCode = 200;
-                response.StatusMessage = "Registration successful";
+                response.StatusMessage = "User successful";
 
                 }
             else
                 {
                 response.StatusCode = 100;
-                response.StatusMessage = "Registration Failed";
+                response.StatusMessage = "User Failed";
                 }
             return response;
             }
-        public Response Login(Registration registration,MySqlConnection connection)
+        public Response Login(User user,MySqlConnection connection)
             {
             Response response = new Response();
-            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM Registration WHERE Email = '"+registration.Email+"' AND Password = '"+registration.Password+"'",connection);
+            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM User WHERE Email = '"+user.Email+"' AND Password = '"+user.Password+"'",connection);
             DataTable dt = new DataTable();
             da.Fill(dt);
             
@@ -39,24 +39,24 @@ namespace SocialNetworkWebAPI.Models
                 {
                 response.StatusCode = 200;
                 response.StatusMessage = "Login Successful";
-                Registration reg = new Registration();
+                User reg = new User();
                 reg.Id = Convert.ToInt32(dt.Rows[0]["ID"].ToString());
                 /*reg.Name = Convert.ToString(dt.Rows[0]["Name"]);*/
                 reg.Email = Convert.ToString(dt.Rows[0]["Email"]);
-                response.Registration = reg;
+                response.User = reg;
                 }
             else
                 {
                 response.StatusCode = 100;
                 response.StatusMessage = "Login Failed";
-                response.Registration = null;
+                response.User = null;
                 }
             return response;
             }
-        public Response UserApproval(Registration registration,MySqlConnection connection)
+        public Response UserApproval(User user,MySqlConnection connection)
             {
             Response response = new Response();
-            MySqlCommand cmd = new MySqlCommand("UPDATE Registration SET IsApproved = 1 WHERE Id= '"+registration.Id+"' AND IsActive = 1", connection);
+            MySqlCommand cmd = new MySqlCommand("UPDATE User SET IsApproved = 1 WHERE Id= '"+user.Id+"' AND IsActive = 1", connection);
             connection.Open();
             int i = cmd.ExecuteNonQuery();
             connection.Close();
@@ -135,19 +135,19 @@ namespace SocialNetworkWebAPI.Models
 
             return response;
             }
-        public Response RegistrationList(Registration registration, MySqlConnection connection)
+        public Response UserList(User user, MySqlConnection connection)
             {
             Response response = new Response();
-            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM registration WHERE IsActive = 1 AND UserType = '"+registration.UserType+"'", connection);
+            MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM User WHERE IsActive = 1 AND UserType = '"+user.UserType+"'", connection);
             DataTable dt = new DataTable();
             da.Fill(dt);
-            List<Registration> lstRegistration = new List<Registration>();
+            List<User> lstuser = new List<User>();
 
             if(dt.Rows.Count > 0)
                 {
                 for(int i = 0; i < dt.Rows.Count; i++)
                     {
-                    Registration reg = new Registration();
+                    User reg = new User();
                     reg.Id = Convert.ToInt32((dt.Rows[i]["ID"]));
                     reg.Name = Convert.ToString(dt.Rows[i]["Name"]);
                     reg.Email = Convert.ToString((string)dt.Rows[i]["Email"]);
@@ -155,28 +155,28 @@ namespace SocialNetworkWebAPI.Models
                     reg.Password = Convert.ToString((string)dt.Rows[i]["Password"]);
                     reg.UserType = Convert.ToString(dt.Rows[i]["UserType"]);
                     reg.PhoneNo = Convert.ToString(dt.Rows[i]["PhoneNo"]);
-                    lstRegistration.Add(reg);
+                    lstuser.Add(reg);
 
                     }
-                if(lstRegistration.Count > 0)
+                if(lstuser.Count > 0)
                     {
                     response.StatusCode = 200;
-                    response.StatusMessage = "Registration data found";
-                    response.listRegistration = lstRegistration;
+                    response.StatusMessage = "User data found";
+                    response.listUser = lstuser;
                     }
                 else
                     {
                     response.StatusCode = 100;
-                    response.StatusMessage = "No Registration data found";
-                    response.listRegistration = null;
+                    response.StatusMessage = "No User data found";
+                    response.listUser = null;
                     }
 
                 }
             else
                 {
                 response.StatusCode = 100;
-                response.StatusMessage = "No Registration data found";
-                response.Registration = null;
+                response.StatusMessage = "No User data found";
+                response.User = null;
                 }
 
             return response;
@@ -272,7 +272,7 @@ namespace SocialNetworkWebAPI.Models
                 }
             return response;
             }
-        public Response StaffRegistration(Staff staff,MySqlConnection connection)
+        public Response StaffUser(Staff staff,MySqlConnection connection)
             {
             Response response = new Response();
             MySqlCommand cmd = new MySqlCommand("INSERT INTO Staff(Name,Email,Password,IsActive) VALUES ('"+staff.Name+ "','" + staff.Email+"','"  + staff.Password+ "',1)", connection);
@@ -283,13 +283,13 @@ namespace SocialNetworkWebAPI.Models
             if(i > 0)
                 {
                 response.StatusCode = 200;
-                response.StatusMessage = "Staff registration successful";
+                response.StatusMessage = "Staff User successful";
 
                 }
             else
                 {
                 response.StatusCode = 100;
-                response.StatusMessage = "Staff registration Failed";
+                response.StatusMessage = "Staff User Failed";
                 }
             return response;
             }
