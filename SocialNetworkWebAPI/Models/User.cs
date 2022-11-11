@@ -7,7 +7,7 @@
         public string Email { get; set; } = String.Empty;
         public string Password { get; set; } = String.Empty;
         public string PhoneNo { get; set; } = String.Empty;
-        public string UserType { get; set; }= String.Empty;
+        public string UserType { get; set; }= "USER";
         public int IsActive { get; set; }
         public int IsApproved { get; set; }
 
