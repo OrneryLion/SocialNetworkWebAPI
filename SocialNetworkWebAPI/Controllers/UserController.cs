@@ -9,10 +9,10 @@ namespace SocialNetworkWebAPI.Controllers
     {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
+    public class UserController : ControllerBase
         {
         private readonly IConfiguration _configuration;
-        public RegistrationController(IConfiguration configuration)
+        public UserController(IConfiguration configuration)
             {
             _configuration = configuration;
             }
@@ -71,8 +71,8 @@ namespace SocialNetworkWebAPI.Controllers
             }
 
         [HttpPost]
-        [Route("RegistrationList")]
-        public Response userList(User user)
+        [Route("UserList")]
+        public Response UserList(User user)
             {
             Response response = new Response();
             MySqlConnection connection = new MySqlConnection(_configuration.GetConnectionString("SNCon").ToString());
